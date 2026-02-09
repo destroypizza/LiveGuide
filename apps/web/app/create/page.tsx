@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { API_BASE } from "../../lib/config";
 import { getOrCreateUserId } from "../../lib/userId";
@@ -41,9 +42,9 @@ export default function CreatePage() {
         <button className="btn btnPrimary" onClick={onCreate} disabled={loading}>
           {loading ? "Создаём..." : "Создать"}
         </button>
-        <a className="btn" href="/">
+        <Link className="btn" href="/">
           На главную
-        </a>
+        </Link>
       </div>
       {error ? (
         <p style={{ color: "#b91c1c", marginBottom: 0 }}>Ошибка: {error}</p>

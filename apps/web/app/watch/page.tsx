@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { API_BASE } from "../../lib/config";
 import type { StreamListItem } from "../../lib/types";
 
@@ -43,9 +44,9 @@ export default function WatchPage() {
       </p>
 
       <div className="row" style={{ marginBottom: 8 }}>
-        <a className="btn" href="/">
+        <Link className="btn" href="/">
           На главную
-        </a>
+        </Link>
       </div>
 
       {loading ? <p className="muted">Загрузка...</p> : null}
@@ -61,9 +62,9 @@ export default function WatchPage() {
         {items.map((s) => (
           <li key={s.streamId} style={{ marginBottom: 8 }}>
             <div className="row">
-              <a className="btn" href={`/v/${encodeURIComponent(s.streamId)}`}>
+              <Link className="btn" href={`/v/${encodeURIComponent(s.streamId)}`}>
                 Открыть зрителя
-              </a>
+              </Link>
               <span>
                 <code>{s.streamId}</code>
               </span>
