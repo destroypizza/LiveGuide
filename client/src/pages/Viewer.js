@@ -30,7 +30,16 @@ function Viewer() {
   const [allowedCommands, setAllowedCommands] = useState([]);
 
   useEffect(() => {
-    loadBalance();
+    const loadBalanceData = async () => {
+      try {
+        const response = await userAPI.getBalance(userId);
+        setBalance(response.data.balance);
+      } catch (error) {
+        console.error('Failed to load balance:', error);
+      }
+    };
+    
+    loadBalanceData();
     
     const socket = socketService.connect();
 
@@ -131,14 +140,6 @@ function Viewer() {
     };
   }, [streamId, userId, navigate, controlEndTime]);
 
-  const loadBalance = async () => {
-    try {
-      const response = await userAPI.getBalance(userId);
-      setBalance(response.data.balance);
-    } catch (error) {
-      console.error('Failed to load balance:', error);
-    }
-  };
 
   const handleBuySlot = (durationSec) => {
     const pricing = {
