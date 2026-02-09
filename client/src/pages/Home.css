@@ -1,0 +1,114 @@
+.home-page {
+  min-height: 100vh;
+}
+
+.user-info {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.role-card {
+  text-align: center;
+  padding: 32px;
+  border: 3px solid transparent;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.role-card:hover {
+  border-color: #667eea;
+  transform: translateY(-4px);
+}
+
+.broadcaster-card {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+}
+
+.viewer-card {
+  background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+  color: white;
+}
+
+.role-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.role-card h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.role-card p {
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.stream-count {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 20px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.streams-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stream-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.stream-item:hover {
+  border-color: #667eea;
+  background: white;
+}
+
+.stream-info {
+  flex: 1;
+}
+
+.stream-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.stream-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.stream-time {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.info-card {
+  background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+}
+
+.how-it-works {
+  margin-left: 20px;
+  line-height: 2;
+}
+
+.how-it-works li {
+  margin-bottom: 8px;
+}
+
+.how-it-works strong {
+  color: #667eea;
+}

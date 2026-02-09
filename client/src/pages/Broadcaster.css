@@ -1,0 +1,146 @@
+.broadcaster-page {
+  min-height: 100vh;
+}
+
+.connection-status {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.broadcaster-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 968px) {
+  .broadcaster-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.video-section {
+  position: relative;
+}
+
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-item {
+  margin: 16px 0;
+}
+
+.info-item strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.stream-id {
+  font-family: monospace;
+  background: #f3f4f6;
+  padding: 12px;
+  border-radius: 6px;
+  word-break: break-all;
+  margin-bottom: 12px;
+}
+
+.controller-info {
+  text-align: center;
+}
+
+.controller-name {
+  font-size: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.timer-display {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.timer-value {
+  font-size: 48px;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.timer-label {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+.no-controller {
+  text-align: center;
+  padding: 24px;
+  color: #6b7280;
+}
+
+.queue-info {
+  margin-top: 12px;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.queue-stats {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.command-history {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  border: 3px solid #f39c12;
+}
+
+.command-display {
+  text-align: center;
+  padding: 12px;
+}
+
+.command-type {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.command-from {
+  font-size: 14px;
+  color: #666;
+}

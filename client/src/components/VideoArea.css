@@ -1,0 +1,63 @@
+.video-area {
+  width: 100%;
+  background: black;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.video-placeholder {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  position: relative;
+}
+
+.placeholder-content {
+  text-align: center;
+  color: white;
+  padding: 40px;
+}
+
+.camera-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.video-placeholder h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.video-placeholder p {
+  color: #9ca3af;
+  margin-bottom: 24px;
+}
+
+.tech-note {
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid #667eea;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #a5b4fc;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.tech-note strong {
+  color: #818cf8;
+}
