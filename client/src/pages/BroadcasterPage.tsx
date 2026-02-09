@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { socket } from '../socket';
 import { useUserId } from '../hooks/useUserId';
 import { useCountdown } from '../hooks/useCountdown';
-import { ControlState, CommandType, COMMAND_LABELS } from '../types';
+import type { ControlState } from '../types';
+import { CommandType, COMMAND_LABELS } from '../types';
 
 export default function BroadcasterPage() {
   const { streamId } = useParams<{ streamId: string }>();

@@ -3,12 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { socket } from '../socket';
 import { useUserId } from '../hooks/useUserId';
 import { useCountdown } from '../hooks/useCountdown';
-import {
-  ControlState,
-  StreamInfo,
-  CommandType,
-  COMMAND_LABELS,
-} from '../types';
+import type { ControlState, StreamInfo } from '../types';
+import { CommandType, COMMAND_LABELS } from '../types';
 
 const SLOT_OPTIONS = [
   { durationSec: 10, label: '10 сек — 10 ₽' },
