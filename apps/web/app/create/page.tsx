@@ -2,24 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-
-function getApiBase() {
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-}
-
-function getOrCreateUserId() {
-  if (typeof window === "undefined") return "anonymous";
-  const key = "live_control_user_id";
-  const existing = window.localStorage.getItem(key);
-  if (existing) return existing;
-  const next = `u_${Math.random().toString(16).slice(2)}_${Date.now()}`;
-  window.localStorage.setItem(key, next);
-  return next;
-}
+import { API_BASE } from "../../lib/config";
+import { getOrCreateUserId } from "../../lib/userId";
 
 export default function CreatePage() {
   const router = useRouter();
-  const apiBase = useMemo(() => getApiBase(), []);
+  const apiBase = useMemo(() => API_BASE, []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

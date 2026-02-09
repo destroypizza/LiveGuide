@@ -1,19 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
-type StreamListItem = {
-  streamId: string;
-  createdAt: string;
-  broadcasterOnline: boolean;
-};
-
-function getApiBase() {
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-}
+import { API_BASE } from "../../lib/config";
+import type { StreamListItem } from "../../lib/types";
 
 export default function WatchPage() {
-  const apiBase = useMemo(() => getApiBase(), []);
+  const apiBase = useMemo(() => API_BASE, []);
   const [items, setItems] = useState<StreamListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
