@@ -11,7 +11,14 @@ import './Viewer.css';
 function Viewer() {
   const { streamId } = useParams();
   const navigate = useNavigate();
-  const [userId] = useState(localStorage.getItem('userId'));
+  const [userId] = useState(() => {
+    let storedUserId = localStorage.getItem('userId');
+    if (!storedUserId) {
+      storedUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('userId', storedUserId);
+    }
+    return storedUserId;
+  });
   const [connected, setConnected] = useState(false);
   const [balance, setBalance] = useState(0);
   const [activeController, setActiveController] = useState(null);
