@@ -17,12 +17,13 @@
 ### Шаг 3: Настройки сервиса
 ```
 Name: liveguide-backend
-Region: Frankfurt (EU Central)
+Region: Frankfurt (EU Central)  
 Branch: main
 Root Directory: server
 Runtime: Node
 Build Command: npm install
 Start Command: npm start
+Node Version: 18
 ```
 
 ### Шаг 4: Переменные окружения (Environment Variables)
