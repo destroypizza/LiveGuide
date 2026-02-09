@@ -29,7 +29,7 @@ function QueueDisplay({ queue, activeController, currentUserId }) {
             >
               <span className="position">#{item.position}</span>
               <span className="user-id">
-                {item.userId === currentUserId ? 'YOU' : item.userId.substring(0, 12)}
+                {item.userId === currentUserId ? 'YOU' : (item.userId || 'Unknown').substring(0, 12)}
               </span>
               <span className="duration">{item.durationSec}s</span>
             </div>
