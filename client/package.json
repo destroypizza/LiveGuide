@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@daily-co/daily-react": "^0.24.0",
     "@livekit/components-react": "^2.9.19",
     "axios": "^1.6.2",
     "livekit-client": "^2.17.1",

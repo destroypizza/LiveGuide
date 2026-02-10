@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import socketService from '../services/socket';
-import LiveKitVideoArea from '../components/LiveKitVideoArea';
+import DailyVideoArea from '../components/DailyVideoArea';
 import CommandOverlay from '../components/CommandOverlay';
 import './Broadcaster.css';
 
@@ -120,7 +120,7 @@ function Broadcaster() {
         <div className="broadcaster-grid">
           {/* Main video area */}
           <div className="video-section">
-            <LiveKitVideoArea 
+            <DailyVideoArea 
               streamId={streamId} 
               userId={userId} 
               role="broadcaster" 
