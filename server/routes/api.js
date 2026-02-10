@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const StreamService = require('../services/StreamService');
 const UserModel = require('../models/User');
+const LiveKitService = require('../services/LiveKitService');
 
 // Create a new stream
 router.post('/streams', (req, res) => {
@@ -80,6 +81,35 @@ router.get('/users/:userId/balance', (req, res) => {
   } catch (error) {
     console.error('[API] Error getting balance:', error);
     res.status(500).json({ error: 'Failed to get balance' });
+  }
+});
+
+// Get LiveKit token for stream
+router.post('/streams/:streamId/token', (req, res) => {
+  try {
+    const { streamId } = req.params;
+    const { userId, role } = req.body;
+    
+    if (!userId || !role) {
+      return res.status(400).json({ error: 'userId and role are required' });
+    }
+
+    const stream = StreamService.getStream(streamId);
+    if (!stream) {
+      return res.status(404).json({ error: 'Stream not found' });
+    }
+
+    let tokenData;
+    if (role === 'broadcaster') {
+      tokenData = LiveKitService.getBroadcasterToken(streamId, userId);
+    } else {
+      tokenData = LiveKitService.getViewerToken(streamId, userId);
+    }
+
+    res.json(tokenData);
+  } catch (error) {
+    console.error('[API] Error generating LiveKit token:', error);
+    res.status(500).json({ error: 'Failed to generate token' });
   }
 });
 

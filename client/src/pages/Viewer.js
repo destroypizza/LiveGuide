@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import socketService from '../services/socket';
 import { userAPI } from '../services/api';
-import VideoArea from '../components/VideoArea';
+import LiveKitVideoArea from '../components/LiveKitVideoArea';
 import CommandPanel from '../components/CommandPanel';
 import QueueDisplay from '../components/QueueDisplay';
 import ControlStatus from '../components/ControlStatus';
@@ -179,7 +179,11 @@ function Viewer() {
         <div className="viewer-grid">
           {/* Main content */}
           <div className="main-content">
-            <VideoArea role="viewer" />
+            <LiveKitVideoArea 
+              streamId={streamId} 
+              userId={userId} 
+              role="viewer" 
+            />
             
             <ControlStatus
               isActive={isActiveController}

@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@livekit/components-react": "^2.9.19",
+    "axios": "^1.6.2",
+    "livekit-client": "^2.17.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.0",
-    "socket.io-client": "^4.6.1",
-    "axios": "^1.6.2"
+    "socket.io-client": "^4.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
