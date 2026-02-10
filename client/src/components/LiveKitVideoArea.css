@@ -1,0 +1,40 @@
+.livekit-video-area {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: #000;
+}
+
+/* Override LiveKit default styles */
+.livekit-video-area .lk-room-container {
+  border-radius: 12px;
+  min-height: 400px;
+}
+
+.livekit-video-area .lk-focus-layout {
+  background: #1a1a1a;
+}
+
+.loading-spinner {
+  font-size: 48px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.video-placeholder.error {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+}

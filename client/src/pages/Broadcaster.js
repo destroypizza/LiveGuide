@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import socketService from '../services/socket';
-import VideoArea from '../components/VideoArea';
+import LiveKitVideoArea from '../components/LiveKitVideoArea';
 import CommandOverlay from '../components/CommandOverlay';
 import './Broadcaster.css';
 
@@ -120,7 +120,11 @@ function Broadcaster() {
         <div className="broadcaster-grid">
           {/* Main video area */}
           <div className="video-section">
-            <VideoArea role="broadcaster" />
+            <LiveKitVideoArea 
+              streamId={streamId} 
+              userId={userId} 
+              role="broadcaster" 
+            />
             
             {lastCommand && (
               <CommandOverlay command={lastCommand} />
