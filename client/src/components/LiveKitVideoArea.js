@@ -4,7 +4,6 @@ import {
   VideoConference,
   RoomAudioRenderer
 } from '@livekit/components-react';
-import '@livekit/components-react/dist/index.css';
 import axios from 'axios';
 import './LiveKitVideoArea.css';
 
