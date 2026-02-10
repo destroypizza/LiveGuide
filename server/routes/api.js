@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const StreamService = require('../services/StreamService');
 const UserModel = require('../models/User');
-const LiveKitService = require('../services/LiveKitService');
+const DailyService = require('../services/DailyService');
 
 // Create a new stream
-router.post('/streams', (req, res) => {
+router.post('/streams', async (req, res) => {
   try {
     const { broadcasterId } = req.body;
     
@@ -14,6 +14,16 @@ router.post('/streams', (req, res) => {
     }
 
     const stream = StreamService.createStream(broadcasterId);
+    
+    // Create Daily.co room for this stream
+    try {
+      const dailyRoom = await DailyService.createRoom(stream.id);
+      stream.dailyRoomUrl = dailyRoom.roomUrl;
+    } catch (error) {
+      console.error('[API] Failed to create Daily room:', error.message);
+      // Continue without video room
+    }
+    
     res.json({ streamId: stream.id, stream });
   } catch (error) {
     console.error('[API] Error creating stream:', error);
@@ -84,32 +94,33 @@ router.get('/users/:userId/balance', (req, res) => {
   }
 });
 
-// Get LiveKit token for stream
-router.post('/streams/:streamId/token', (req, res) => {
+// Get Daily.co room URL for stream
+router.get('/streams/:streamId/room', async (req, res) => {
   try {
     const { streamId } = req.params;
-    const { userId, role } = req.body;
     
-    if (!userId || !role) {
-      return res.status(400).json({ error: 'userId and role are required' });
-    }
-
     const stream = StreamService.getStream(streamId);
     if (!stream) {
       return res.status(404).json({ error: 'Stream not found' });
     }
 
-    let tokenData;
-    if (role === 'broadcaster') {
-      tokenData = LiveKitService.getBroadcasterToken(streamId, userId);
+    // Get or create Daily room
+    let roomData;
+    if (stream.dailyRoomUrl) {
+      roomData = { roomUrl: stream.dailyRoomUrl };
     } else {
-      tokenData = LiveKitService.getViewerToken(streamId, userId);
+      try {
+        roomData = await DailyService.createRoom(streamId);
+        stream.dailyRoomUrl = roomData.roomUrl;
+      } catch (error) {
+        return res.status(500).json({ error: 'Failed to create video room' });
+      }
     }
 
-    res.json(tokenData);
+    res.json(roomData);
   } catch (error) {
-    console.error('[API] Error generating LiveKit token:', error);
-    res.status(500).json({ error: 'Failed to generate token' });
+    console.error('[API] Error getting Daily room:', error);
+    res.status(500).json({ error: 'Failed to get room' });
   }
 });
 

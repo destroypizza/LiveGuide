@@ -1,0 +1,13 @@
+.daily-video-area {
+  width: 100%;
+  min-height: 500px;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.daily-video-area iframe {
+  border-radius: 12px;
+}
