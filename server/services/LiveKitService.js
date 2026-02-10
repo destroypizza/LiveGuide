@@ -12,10 +12,14 @@ class LiveKitService {
       throw new Error('LiveKit credentials not configured');
     }
 
+    console.log(`[LiveKitService] Generating token with API Key: ${this.apiKey?.substring(0, 6)}...`);
+    console.log(`[LiveKitService] WebSocket URL: ${this.wsUrl}`);
+
     const at = new AccessToken(this.apiKey, this.apiSecret, {
       identity: participantName,
       name: participantName,
-      metadata: JSON.stringify(metadata)
+      metadata: JSON.stringify(metadata),
+      ttl: '6h' // Token valid for 6 hours
     });
 
     at.addGrant({
@@ -29,6 +33,7 @@ class LiveKitService {
     const token = at.toJwt();
     
     console.log(`[LiveKitService] Generated token for ${participantName} in room ${roomName} (role: ${metadata.role})`);
+    console.log(`[LiveKitService] Token starts with: ${token.substring(0, 20)}...`);
     
     return {
       token,
