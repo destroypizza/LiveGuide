@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {
   LiveKitRoom,
   VideoConference,
-  RoomAudioRenderer,
-  useTracks
+  RoomAudioRenderer
 } from '@livekit/components-react';
-import { Track } from 'livekit-client';
-import '@livekit/components-styles';
+import '@livekit/components-react/dist/index.css';
 import axios from 'axios';
 import './LiveKitVideoArea.css';
 
