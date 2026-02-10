@@ -77,7 +77,6 @@ function Viewer() {
     const handlePurchaseSuccess = (data) => {
       setBalance(data.balance);
       alert(`Success! You are position ${data.position} in queue.`);
-      loadBalance();
     };
 
     const handlePurchaseFailed = (data) => {
