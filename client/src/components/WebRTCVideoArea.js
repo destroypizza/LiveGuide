@@ -138,15 +138,47 @@ function WebRTCVideoArea({ streamId, userId, role }) {
       }
     };
 
+    const handleViewerReady = async ({ fromUserId }) => {
+        if (role !== 'broadcaster') return;
+        if (!localStreamRef.current) return;
+      
+        try {
+          console.log('[WebRTC] viewer_ready received from', fromUserId);
+      
+          const peer = createPeer(fromUserId);
+      
+          localStreamRef.current.getTracks().forEach(track => {
+            peer.addTrack(track, localStreamRef.current);
+          });
+      
+          const offer = await peer.createOffer();
+          await peer.setLocalDescription(offer);
+      
+          socket.emit('webrtc_offer', {
+            streamId,
+            offer,
+            targetUserId: fromUserId
+          });
+      
+          console.log('[WebRTC] offer sent to', fromUserId);
+          setStatus('Sending video...');
+        } catch (err) {
+          console.error('[WebRTC] viewer_ready error:', err);
+        }
+      };
+
     socket.on('webrtc_offer', handleOffer);
     socket.on('webrtc_answer', handleAnswer);
     socket.on('webrtc_ice_candidate', handleIce);
     socket.on('stream_stats', handleStats);
+    socket.on('viewer_ready', handleViewerReady);
 
     if (role === 'broadcaster') {
       startBroadcaster();
     } else {
-      setStatus('Waiting for stream...');
+        setStatus('Waiting for stream...');
+        socket.emit('viewer_ready', { streamId });
+        console.log('[WebRTC] viewer_ready sent');
     }
 
     return () => {
@@ -154,7 +186,8 @@ function WebRTCVideoArea({ streamId, userId, role }) {
       socket.off('webrtc_answer', handleAnswer);
       socket.off('webrtc_ice_candidate', handleIce);
       socket.off('stream_stats', handleStats);
-
+      socket.off('viewer_ready', handleViewerReady);
+      
       if (peerRef.current) {
         peerRef.current.close();
       }

@@ -343,6 +343,13 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('viewer_ready', ({ streamId }) => {
+    socket.to(streamId).emit('viewer_ready', {
+      streamId,
+      fromUserId: currentUserId
+    });
+  });
+
     // WebRTC signaling
     socket.on('webrtc_offer', ({ streamId, offer, targetUserId }) => {
       if (!streamId || !offer) return;
