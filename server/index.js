@@ -343,6 +343,64 @@ io.on('connection', (socket) => {
     });
   });
 
+    // WebRTC signaling
+    socket.on('webrtc_offer', ({ streamId, offer, targetUserId }) => {
+      if (!streamId || !offer) return;
+  
+      if (targetUserId) {
+        const targetSocketId = userSockets.get(targetUserId);
+        if (targetSocketId) {
+          io.to(targetSocketId).emit('webrtc_offer', {
+            streamId,
+            offer,
+            fromUserId: currentUserId
+          });
+        }
+        return;
+      }
+  
+      socket.to(streamId).emit('webrtc_offer', {
+        streamId,
+        offer,
+        fromUserId: currentUserId
+      });
+    });
+  
+    socket.on('webrtc_answer', ({ streamId, answer, targetUserId }) => {
+      if (!streamId || !answer || !targetUserId) return;
+  
+      const targetSocketId = userSockets.get(targetUserId);
+      if (targetSocketId) {
+        io.to(targetSocketId).emit('webrtc_answer', {
+          streamId,
+          answer,
+          fromUserId: currentUserId
+        });
+      }
+    });
+  
+    socket.on('webrtc_ice_candidate', ({ streamId, candidate, targetUserId }) => {
+      if (!streamId || !candidate) return;
+  
+      if (targetUserId) {
+        const targetSocketId = userSockets.get(targetUserId);
+        if (targetSocketId) {
+          io.to(targetSocketId).emit('webrtc_ice_candidate', {
+            streamId,
+            candidate,
+            fromUserId: currentUserId
+          });
+        }
+        return;
+      }
+  
+      socket.to(streamId).emit('webrtc_ice_candidate', {
+        streamId,
+        candidate,
+        fromUserId: currentUserId
+      });
+    });
+
   // Disconnect
   socket.on('disconnect', () => {
     console.log(`[Socket] Client disconnected: ${socket.id}`);

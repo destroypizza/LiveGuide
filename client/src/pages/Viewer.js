@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import socketService from '../services/socket';
 import { userAPI } from '../services/api';
-import DailyVideoArea from '../components/DailyVideoArea';
+import WebRTCVideoArea from '../components/WebRTCVideoArea';
 import CommandPanel from '../components/CommandPanel';
 import QueueDisplay from '../components/QueueDisplay';
 import ControlStatus from '../components/ControlStatus';
@@ -179,11 +179,11 @@ function Viewer() {
         <div className="viewer-grid">
           {/* Main content */}
           <div className="main-content">
-            <DailyVideoArea 
-              streamId={streamId} 
-              userId={userId} 
-              role="viewer" 
-            />
+          <WebRTCVideoArea
+  streamId={streamId}
+  userId={userId}
+  role="viewer"
+/>
             
             <ControlStatus
               isActive={isActiveController}

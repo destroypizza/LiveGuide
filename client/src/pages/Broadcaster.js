@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import socketService from '../services/socket';
-import DailyVideoArea from '../components/DailyVideoArea';
+import WebRTCVideoArea from '../components/WebRTCVideoArea';
 import CommandOverlay from '../components/CommandOverlay';
 import './Broadcaster.css';
 
@@ -126,11 +126,11 @@ function Broadcaster() {
         <div className="broadcaster-grid">
           {/* Main video area */}
           <div className="video-section">
-            <DailyVideoArea 
-              streamId={streamId} 
-              userId={userId} 
-              role="broadcaster" 
-            />
+          <WebRTCVideoArea
+  streamId={streamId}
+  userId={userId}
+  role="broadcaster"
+/>
             
             {lastCommand && (
               <CommandOverlay command={lastCommand} />
