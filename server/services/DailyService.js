@@ -11,15 +11,10 @@ class DailyService {
       throw new Error('Daily.co API key not configured');
     }
   
-    const safeRoomName = `room-${String(roomName)
-      .replace(/[^A-Za-z0-9_-]/g, '-')
-      .slice(0, 100)}`;
-  
     try {
       const response = await axios.post(
         `${this.apiUrl}/rooms`,
         {
-          name: safeRoomName,
           privacy: 'public'
         },
         {
@@ -30,32 +25,24 @@ class DailyService {
         }
       );
   
-      console.log(`[DailyService] Created room: ${safeRoomName}`);
+      console.log(`[DailyService] Created room: ${response.data.name}`);
   
       return {
         roomUrl: response.data.url,
         roomName: response.data.name
       };
     } catch (error) {
-      const status = error.response?.status;
-      const data = error.response?.data;
-  
       console.error('[DailyService] Error creating room:', {
-        status,
-        data,
+        status: error.response?.status,
+        data: error.response?.data,
         message: error.message
       });
   
-      if (status === 409) {
-        return await this.getRoom(safeRoomName);
-      }
-  
       throw new Error(
-        data?.error ||
-        data?.info ||
-        data?.message ||
-        error.message ||
-        'Daily room creation failed'
+        error.response?.data?.error ||
+        error.response?.data?.info ||
+        error.response?.data?.message ||
+        error.message
       );
     }
   }
