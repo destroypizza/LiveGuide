@@ -7,8 +7,17 @@ services:
     rootDir: server
     buildCommand: npm install
     startCommand: npm start
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
       - key: CLIENT_URL
+        sync: false
+      - key: DAILY_API_KEY
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_PROXY_URL
+        sync: false
+      - key: TELEGRAM_VIEWER_BASE_URL
         sync: false

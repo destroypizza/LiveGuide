@@ -21,7 +21,6 @@ class DailyService {
             max_participants: 50,
             enable_chat: false,
             enable_screenshare: true,
-            enable_recording: 'cloud',
             exp: Math.floor(Date.now() / 1000) + 86400 // 24 hours
           }
         },
@@ -39,11 +38,15 @@ class DailyService {
         roomName: response.data.name
       };
     } catch (error) {
-      // Room might already exist, try to get it
-      if (error.response?.status === 400) {
+      const status = error.response?.status;
+      const apiError = error.response?.data?.error || error.response?.data?.info || error.message;
+
+      // Room might already exist (conflict), try to fetch it.
+      if (status === 409) {
         return await this.getRoom(roomName);
       }
-      console.error('[DailyService] Error creating room:', error.message);
+
+      console.error(`[DailyService] Error creating room (${status || 'unknown'}):`, apiError);
       throw error;
     }
   }

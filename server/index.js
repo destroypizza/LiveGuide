@@ -13,9 +13,30 @@ const TelegramService = require('./services/TelegramService');
 const app = express();
 const server = http.createServer(app);
 
-// CORS configuration
+function parseAllowedOrigins(value) {
+  if (!value) return ['http://localhost:3000'];
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+const allowedOrigins = parseAllowedOrigins(process.env.CLIENT_URL);
+
+function isAllowedOrigin(origin) {
+  if (!origin) return true; // Allow server-to-server and non-browser clients
+  return allowedOrigins.includes(origin);
+}
+
+// CORS configuration (supports comma-separated CLIENT_URL values)
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin(origin, callback) {
+    if (isAllowedOrigin(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   credentials: true
 };
 
@@ -355,5 +376,5 @@ const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`\n🚀 Server running on port ${PORT}`);
   console.log(`📡 WebSocket server ready`);
-  console.log(`🌐 Client URL: ${process.env.CLIENT_URL}\n`);
+  console.log(`🌐 Allowed client origins: ${allowedOrigins.join(', ')}\n`);
 });

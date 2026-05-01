@@ -31,7 +31,11 @@ Node Version: 18
 ```
 NODE_ENV = production
 PORT = 3001
-CLIENT_URL = (оставьте пустым пока)
+CLIENT_URL = https://your-frontend.vercel.app,http://localhost:3000
+DAILY_API_KEY = your_daily_api_key
+TELEGRAM_BOT_TOKEN = your_telegram_bot_token
+TELEGRAM_PROXY_URL = http://127.0.0.1:12334 (если нужен прокси)
+TELEGRAM_VIEWER_BASE_URL = https://your-frontend.vercel.app
 ```
 
 ### Шаг 5: Деплой
@@ -87,9 +91,14 @@ REACT_APP_WS_URL = https://liveguide-backend.onrender.com
 2. Откройте ваш Web Service
 3. Перейдите в **"Environment"**
 4. Найдите переменную **CLIENT_URL**
-5. Установите значение: `https://liveguide.vercel.app` (ваш URL Vercel)
+5. Установите значение: `https://liveguide.vercel.app,http://localhost:3000`
 6. Нажмите **"Save Changes"**
 7. Сервис автоматически перезапустится
+
+### Обновите переменную TELEGRAM_VIEWER_BASE_URL в Render:
+1. В том же разделе **Environment**
+2. Установите значение: `https://liveguide.vercel.app`
+3. Нажмите **"Save Changes"**
 
 ---
 
