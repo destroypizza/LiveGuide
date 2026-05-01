@@ -2,6 +2,8 @@
 
 A web platform for interactive live streams where viewers can pay to control the streamer in real-time. Built with React, Node.js, Express, and Socket.IO.
 
+Video works in local/browser-to-browser demo. Mobile/external networks require TURN server
+
 ## 📋 Features
 
 ### Core Functionality
