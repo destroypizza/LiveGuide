@@ -343,10 +343,19 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('viewer_ready', ({ streamId }) => {
+  socket.on('viewer_ready', ({ streamId, userId }) => {
+    const viewerUserId = userId || currentUserId;
+  
+    if (!streamId || !viewerUserId) {
+      console.log('[WebRTC] viewer_ready ignored: missing streamId or userId');
+      return;
+    }
+  
+    console.log(`[WebRTC] viewer_ready from ${viewerUserId} for stream ${streamId}`);
+  
     socket.to(streamId).emit('viewer_ready', {
       streamId,
-      fromUserId: currentUserId
+      fromUserId: viewerUserId
     });
   });
 

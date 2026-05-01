@@ -65,6 +65,7 @@ function WebRTCVideoArea({ streamId, userId, role }) {
     };
 
     const handleOffer = async ({ offer, fromUserId }) => {
+        console.log('[WebRTC] offer received from', fromUserId);
       try {
         const peer = createPeer(fromUserId);
 
@@ -86,7 +87,8 @@ function WebRTCVideoArea({ streamId, userId, role }) {
       }
     };
 
-    const handleAnswer = async ({ answer }) => {
+    const handleAnswer = async ({ answer, fromUserId }) => {
+        console.log('[WebRTC] answer received from', fromUserId);
       try {
         if (peerRef.current) {
           await peerRef.current.setRemoteDescription(
@@ -177,8 +179,19 @@ function WebRTCVideoArea({ streamId, userId, role }) {
       startBroadcaster();
     } else {
         setStatus('Waiting for stream...');
-        socket.emit('viewer_ready', { streamId });
-        console.log('[WebRTC] viewer_ready sent');
+
+  const sendViewerReady = () => {
+    socket.emit('viewer_ready', { streamId, userId });
+    console.log('[WebRTC] viewer_ready sent', { streamId, userId });
+  };
+
+  sendViewerReady();
+
+  const readyInterval = setInterval(sendViewerReady, 1500);
+
+  setTimeout(() => {
+    clearInterval(readyInterval);
+  }, 8000);
     }
 
     return () => {
@@ -187,7 +200,7 @@ function WebRTCVideoArea({ streamId, userId, role }) {
       socket.off('webrtc_ice_candidate', handleIce);
       socket.off('stream_stats', handleStats);
       socket.off('viewer_ready', handleViewerReady);
-      
+
       if (peerRef.current) {
         peerRef.current.close();
       }
