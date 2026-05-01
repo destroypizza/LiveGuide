@@ -21,7 +21,16 @@ function DailyVideoArea({ streamId, userId, role }) {
         setError(null);
       } catch (err) {
         console.error('Failed to get Daily room:', err);
-        setError('Failed to connect to video stream');
+        const errorData = err.response?.data;
+        let errorMessage = 'Failed to connect to video stream';
+        if (errorData?.code === 'DAILY_API_KEY_MISSING') {
+          errorMessage = 'Video: DAILY_API_KEY not configured. Add it to server/.env (see https://dashboard.daily.co)';
+        } else if (errorData?.code === 'DAILY_API_KEY_INVALID') {
+          errorMessage = 'Video: Invalid DAILY_API_KEY. Check server/.env';
+        } else if (errorData?.message) {
+          errorMessage = errorData.message;
+        }
+        setError(errorMessage);
         setLoading(false);
       }
     };

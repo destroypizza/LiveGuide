@@ -481,6 +481,13 @@ lsof -ti:3000 | xargs kill -9
 - Wait 1 second between commands (rate limit)
 - Check console for rejection reasons
 
+### Telegram Bot ETIMEDOUT in RU Networks
+- If server logs show `Polling error ... ETIMEDOUT ...:443`, Telegram API is blocked from this network.
+- Configure a local HTTP(S) proxy in `server/.env`:
+  - `TELEGRAM_PROXY_URL=http://127.0.0.1:10809`
+  - Keep `TELEGRAM_BOT_TOKEN` in the same file.
+- Restart backend after changing env vars.
+
 ## 📝 Development Notes
 
 ### In-Memory Storage

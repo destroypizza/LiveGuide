@@ -21,6 +21,7 @@ function Broadcaster() {
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [lastCommand, setLastCommand] = useState(null);
   const [queueLength, setQueueLength] = useState(0);
+  const [viewersOnline, setViewersOnline] = useState(0);
   const [controlEnabled, setControlEnabled] = useState(true);
 
   useEffect(() => {
@@ -68,11 +69,16 @@ function Broadcaster() {
       setConnected(false);
     };
 
+    const handleStreamStats = (stats) => {
+      setViewersOnline(stats?.viewersOnline || 0);
+    };
+
     socket.on('connect', handleConnect);
     socket.on('disconnect', handleDisconnect);
     socketService.on('control_state', handleControlState);
     socketService.on('command_received', handleCommandReceived);
     socketService.on('stream_ended', handleStreamEnded);
+    socketService.on('stream_stats', handleStreamStats);
 
     // Timer countdown
     const interval = setInterval(() => {
@@ -168,13 +174,24 @@ function Broadcaster() {
             </div>
 
             <div className="card">
-              <h3>Queue Status</h3>
+              <h3>Viewers Online</h3>
+              <div className="queue-stats">
+                <div className="stat-item">
+                  <div className="stat-value">{viewersOnline}</div>
+                  <div className="stat-label">Watching</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card">
+              <h3>Paid Queue Status</h3>
               <div className="queue-stats">
                 <div className="stat-item">
                   <div className="stat-value">{queueLength}</div>
-                  <div className="stat-label">In Queue</div>
+                  <div className="stat-label">In Paid Queue</div>
                 </div>
               </div>
+              <p className="queue-info">Telegram commands are direct mode (not paid queue).</p>
             </div>
 
             <div className="card">

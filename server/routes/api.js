@@ -104,6 +104,16 @@ router.get('/streams/:streamId/room', async (req, res) => {
       return res.status(404).json({ error: 'Stream not found' });
     }
 
+    // Check if Daily.co is configured
+    if (!process.env.DAILY_API_KEY) {
+      console.error('[API] DAILY_API_KEY not configured in server/.env');
+      return res.status(503).json({
+        error: 'Video service not configured',
+        code: 'DAILY_API_KEY_MISSING',
+        message: 'Add DAILY_API_KEY to server/.env. Get free key at https://dashboard.daily.co'
+      });
+    }
+
     // Get or create Daily room
     let roomData;
     if (stream.dailyRoomUrl) {
@@ -113,7 +123,13 @@ router.get('/streams/:streamId/room', async (req, res) => {
         roomData = await DailyService.createRoom(streamId);
         stream.dailyRoomUrl = roomData.roomUrl;
       } catch (error) {
-        return res.status(500).json({ error: 'Failed to create video room' });
+        console.error('[API] Daily.co error:', error.message);
+        const isAuthError = error.message?.includes('API key') || error.response?.status === 401;
+        return res.status(500).json({
+          error: 'Failed to create video room',
+          code: isAuthError ? 'DAILY_API_KEY_INVALID' : 'DAILY_ERROR',
+          message: isAuthError ? 'Check DAILY_API_KEY in server/.env' : error.message
+        });
       }
     }
 
