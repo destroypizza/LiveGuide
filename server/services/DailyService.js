@@ -10,58 +10,71 @@ class DailyService {
     if (!this.apiKey) {
       throw new Error('Daily.co API key not configured');
     }
-
+  
+    const safeRoomName = `room-${String(roomName)
+      .replace(/[^A-Za-z0-9_-]/g, '-')
+      .slice(0, 100)}`;
+  
     try {
       const response = await axios.post(
         `${this.apiUrl}/rooms`,
         {
-          name: roomName,
-          privacy: 'public',
-          properties: {
-            max_participants: 50,
-            enable_chat: false,
-            enable_screenshare: true,
-            exp: Math.floor(Date.now() / 1000) + 86400 // 24 hours
-          }
+          name: safeRoomName,
+          privacy: 'public'
         },
         {
           headers: {
-            'Authorization': `Bearer ${this.apiKey}`,
+            Authorization: `Bearer ${this.apiKey}`,
             'Content-Type': 'application/json'
           }
         }
       );
-
-      console.log(`[DailyService] Created room: ${roomName}`);
+  
+      console.log(`[DailyService] Created room: ${safeRoomName}`);
+  
       return {
         roomUrl: response.data.url,
         roomName: response.data.name
       };
     } catch (error) {
       const status = error.response?.status;
-      const apiError = error.response?.data?.error || error.response?.data?.info || error.message;
-
-      // Room might already exist (conflict), try to fetch it.
+      const data = error.response?.data;
+  
+      console.error('[DailyService] Error creating room:', {
+        status,
+        data,
+        message: error.message
+      });
+  
       if (status === 409) {
-        return await this.getRoom(roomName);
+        return await this.getRoom(safeRoomName);
       }
-
-      console.error(`[DailyService] Error creating room (${status || 'unknown'}):`, apiError);
-      throw error;
+  
+      throw new Error(
+        data?.error ||
+        data?.info ||
+        data?.message ||
+        error.message ||
+        'Daily room creation failed'
+      );
     }
   }
 
   async getRoom(roomName) {
+    const safeRoomName = `room-${String(roomName)
+      .replace(/[^A-Za-z0-9_-]/g, '-')
+      .slice(0, 100)}`;
+  
     try {
       const response = await axios.get(
-        `${this.apiUrl}/rooms/${roomName}`,
+        `${this.apiUrl}/rooms/${safeRoomName}`,
         {
           headers: {
-            'Authorization': `Bearer ${this.apiKey}`
+            Authorization: `Bearer ${this.apiKey}`
           }
         }
       );
-
+  
       return {
         roomUrl: response.data.url,
         roomName: response.data.name
