@@ -32,9 +32,16 @@ function WebRTCVideoArea({ streamId, userId, role }) {
       };
 
       peer.ontrack = (event) => {
+        console.log('[WebRTC] track received', event.streams);
+      
         if (remoteVideoRef.current) {
           remoteVideoRef.current.srcObject = event.streams[0];
+      
+          remoteVideoRef.current.play().catch((err) => {
+            console.error('[WebRTC] remote video play error:', err);
+          });
         }
+      
         setStatus('Watching stream');
       };
 
@@ -223,11 +230,13 @@ function WebRTCVideoArea({ streamId, userId, role }) {
         />
       ) : (
         <video
-          ref={remoteVideoRef}
-          autoPlay
-          playsInline
-          className="daily-video-frame"
-        />
+  ref={remoteVideoRef}
+  autoPlay
+  playsInline
+  muted
+  controls
+  className="daily-video-frame"
+/>
       )}
 
       {error && (
